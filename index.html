@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神都·洛阳 - 文旅数字矩阵</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <div id="intro">
+        <svg id="intro-svg" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+            <path class="intro-path" d="M50,430 L50,400 M90,430 L90,395 M130,430 L130,400 M170,430 L170,395 M210,430 L210,400 M250,430 L250,395 M290,430 L290,400 M330,430 L330,395 M370,430 L370,400 M410,430 L410,395 M450,430 L450,400 M490,430 L490,395 M530,430 L530,400 M570,430 L570,395 M610,430 L610,400 M650,430 L650,395 M690,430 L690,400 M730,430 L730,395 M770,430 L770,400"/>
+            <path class="intro-path" d="M40,430 L40,450 L760,450 L760,430"/>
+            <path class="intro-path" d="M360,450 L360,410 L440,410 L440,450 Z" fill="rgba(212,175,55,0.08)" stroke="rgba(212,175,55,0.5)" stroke-width="2"/>
+            <rect class="intro-path" x="38" y="360" width="55" height="40" rx="2"/>
+            <polygon class="intro-path" points="30,360 65,330 100,360"/>
+            <polygon class="intro-path" points="38,330 65,305 92,330"/>
+            <line class="intro-path" x1="65" y1="305" x2="65" y2="295"/>
+            <rect class="intro-path" x="707" y="360" width="55" height="40" rx="2"/>
+            <polygon class="intro-path" points="700,360 735,330 770,360"/>
+            <polygon class="intro-path" points="708,330 735,305 762,330"/>
+            <line class="intro-path" x1="735" y1="305" x2="735" y2="295"/>
+            <rect class="intro-path" x="310" y="330" width="180" height="80" rx="3"/>
+            <polygon class="intro-path" points="370,330 370,410" stroke-width="3"/>
+            <polygon class="intro-path" points="430,330 430,410" stroke-width="3"/>
+            <polygon class="intro-path" points="330,330 330,410" stroke-width="2"/>
+            <polygon class="intro-path" points="470,330 470,410" stroke-width="2"/>
+            <polygon class="intro-path" points="280,330 400,290 520,330"/>
+            <line class="intro-path" x1="280" y1="330" x2="520" y2="330"/>
+            <polygon class="intro-path" points="310,290 400,245 490,290"/>
+            <line class="intro-path" x1="360" y1="245" x2="440" y2="245" stroke-width="3"/>
+            <polygon class="intro-path" points="355,245 360,235 365,245" fill="rgba(212,175,55,0.4)"/>
+            <polygon class="intro-path" points="435,245 440,235 445,245" fill="rgba(212,175,55,0.4)"/>
+            <polygon class="intro-path" points="397,245 400,230 403,245" fill="rgba(212,175,55,0.5)"/>
+            <circle class="intro-path" cx="400" cy="228" r="4"/>
+            <rect class="intro-path" x="200" y="380" width="50" height="50"/>
+            <polygon class="intro-path" points="195,380 225,350 255,380"/>
+            <polygon class="intro-path" points="205,350 225,330 245,350"/>
+            <line class="intro-path" x1="225" y1="330" x2="225" y2="320"/>
+            <circle class="intro-path" cx="225" cy="318" r="3"/>
+            <rect class="intro-path" x="545" y="340" width="50" height="90" rx="2"/>
+            <polygon class="intro-path" points="540,340 570,325 600,340"/>
+            <polygon class="intro-path" points="545,310 570,298 595,310"/>
+            <polygon class="intro-path" points="550,280 570,268 590,280"/>
+            <polygon class="intro-path" points="555,250 570,240 585,250"/>
+            <line class="intro-path" x1="570" y1="240" x2="570" y2="228" stroke-width="2"/>
+            <circle class="intro-path" cx="570" cy="226" r="3"/>
+            <rect class="intro-path" x="120" y="390" width="40" height="40"/>
+            <polygon class="intro-path" points="115,390 140,365 165,390"/>
+            <rect class="intro-path" x="640" y="390" width="40" height="40"/>
+            <polygon class="intro-path" points="635,390 660,365 685,390"/>
+            <path class="intro-path" d="M280,330 Q260,325 255,320" stroke-width="1.5"/>
+            <path class="intro-path" d="M520,330 Q540,325 545,320" stroke-width="1.5"/>
+            <path class="intro-path" d="M310,290 Q295,285 288,278" stroke-width="1.5"/>
+            <path class="intro-path" d="M490,290 Q505,285 512,278" stroke-width="1.5"/>
+        </svg>
+        <div id="intro-texts">
+            <p class="intro-line">丝路东方起点</p>
+            <p class="intro-line">神都洛阳</p>
+            <p class="intro-line">十三朝古都 华夏文明源流</p>
+        </div>
+    </div>
+    <div id="arrival"></div>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <span id="siteTitle">神都·洛阳</span>
+                <button id="editTitleBtn" class="nav-btn visible" style="margin-left: 10px; font-size: 12px; padding: 4px 8px;">✏️ 编辑标题</button>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="#home" class="nav-link active">首页</a></li>
+                <li><a href="#culture" class="nav-link">文化解码</a></li>
+                <li><a href="#journal" class="nav-link">探访实录</a></li>
+                <li><a href="#archive" class="nav-link">风物档案</a></li>
+                <li><a href="#map" class="nav-link">互动地图</a></li>
+                <li><button class="nav-btn visible" id="devDashBtn" onclick="openDeveloperDashboard()">🛠️ 管理</button></li>
+                <li><button class="bookmark-btn" id="bookmarkBtn" title="收藏本站">🔖</button></li>
+            </ul>
+            <div class="navbar-toggle" id="navbarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="home" class="page active">
+            <div class="hero-section">
+                <div class="hero-slides">
+                    <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1531971418865-487f516101c0?w=1920&q=80')">
+                        <div class="hero-overlay"></div>
+                        <div class="hero-content">
+                            <h1>行走洛阳 · 读懂历史</h1>
+                            <p>十三朝古都，千年文化传承</p>
+                        </div>
+                    </div>
+                    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1513407030348-c983a97b98d8?w=1920&q=80')">
+                        <div class="hero-overlay"></div>
+                        <div class="hero-content">
+                            <h1>龙门石窟 · 艺术瑰宝</h1>
+                            <p>世界文化遗产，佛教艺术巅峰</p>
+                        </div>
+                    </div>
+                    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1920&q=80')">
+                        <div class="hero-overlay"></div>
+                        <div class="hero-content">
+                            <h1>应天门 · 天下第一门</h1>
+                            <p>隋唐洛阳城的辉煌见证</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-dots">
+                    <span class="dot active" data-slide="0"></span>
+                    <span class="dot" data-slide="1"></span>
+                    <span class="dot" data-slide="2"></span>
+                </div>
+            </div>
+            
+            <div class="features-section">
+                <div class="features-header">
+                    <span class="section-label">核心体验</span>
+                    <h2 class="animate-on-scroll">深度探索洛阳</h2>
+                    <p class="section-subtitle">三大板块，带你领略十三朝古都的独特魅力</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card animate-on-scroll" data-target="#culture">
+                        <div class="feature-icon-wrapper">
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                <path d="M2 17l10 5 10-5"/>
+                                <path d="M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                        <div class="feature-content">
+                            <h3>文化解码</h3>
+                            <p class="feature-desc">深入解读洛阳千年历史文化，探索龙门石窟、白马寺等世界文化遗产背后的故事，感受中华文明的博大精深。</p>
+                            <a href="#culture" class="feature-link">
+                                <span>探索文化</span>
+                                <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="feature-card animate-on-scroll" data-target="#journal">
+                        <div class="feature-icon-wrapper">
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="10.5" r="1.5"/>
+                                <path d="M21 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2"/>
+                            </svg>
+                        </div>
+                        <div class="feature-content">
+                            <h3>探访实录</h3>
+                            <p class="feature-desc">跟随镜头探访洛阳名胜古迹，记录旅途点滴，分享真实的旅行体验与感悟，让每一次探访都成为珍贵记忆。</p>
+                            <a href="#journal" class="feature-link">
+                                <span>观看实录</span>
+                                <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="feature-card animate-on-scroll" data-target="#archive">
+                        <div class="feature-icon-wrapper">
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                <path d="M2 17l10 5 10-5"/>
+                                <path d="M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                        <div class="feature-content">
+                            <h3>风物档案</h3>
+                            <p class="feature-desc">品味洛阳特色美食，鉴赏传统工艺，了解当地民俗风情，感受这座城市独特的生活气息与文化底蕴。</p>
+                            <a href="#archive" class="feature-link">
+                                <span>品味风物</span>
+                                <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scroll-indicator">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12l7 7 7-7"/>
+                </svg>
+            </div>
+        </section>
+
+        <section id="culture" class="page">
+            <div class="page-header">
+                <h2>文化解码</h2>
+                <p>探索洛阳的历史故事与非遗文化</p>
+            </div>
+            <div class="culture-grid" id="cultureGrid"></div>
+        </section>
+
+        <section id="journal" class="page">
+            <div class="page-header">
+                <h2>探访实录</h2>
+                <p>记录旅途点滴，分享精彩瞬间</p>
+            </div>
+            <div class="journal-tabs">
+                <button class="tab-btn active" data-tab="official">官方发布</button>
+                <button class="tab-btn" data-tab="user">游客投稿</button>
+            </div>
+            <div class="journal-grid" id="journalGrid"></div>
+        </section>
+
+        <section id="archive" class="page">
+            <div class="page-header">
+                <h2>风物档案</h2>
+                <p>品味特色美食，鉴赏传统工艺</p>
+            </div>
+            <div class="archive-container">
+                <div class="archive-tabs-wrapper">
+                    <div class="archive-tabs">
+                        <button class="archive-tab active" data-tab="food">
+                            <span class="archive-tab-icon">🍜</span>
+                            <span class="archive-tab-text">舌尖上的洛阳</span>
+                        </button>
+                        <button class="archive-tab" data-tab="craft">
+                            <span class="archive-tab-icon">🎨</span>
+                            <span class="archive-tab-text">指尖上的非遗</span>
+                        </button>
+                        <button class="archive-tab" data-tab="fengHua">
+                            <span class="archive-tab-icon">✨</span>
+                            <span class="archive-tab-text">洛阳风华</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="archive-content">
+                    <div class="archive-grid" id="archiveGrid"></div>
+                </div>
+            </div>
+            
+            <div class="favorites-panel" id="favoritesPanel">
+                <button class="favorites-toggle" id="favoritesToggle" title="我的收藏">
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="favorites-star">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    <span class="favorites-count" id="favoritesCount">0</span>
+                </button>
+                <div class="favorites-content" id="favoritesContent">
+                    <div class="favorites-header">
+                        <h3>我的收藏</h3>
+                        <button class="favorites-close" id="favoritesClose">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="favorites-list" id="favoritesList"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="map" class="page">
+            <div class="page-header">
+                <h2>互动地图</h2>
+                <p>探索洛阳的每一处精彩</p>
+            </div>
+            <div class="map-container" id="mapContainer"></div>
+            <div class="map-controls">
+                <button class="control-btn" id="toggleMarkerMode" onclick="handleToggleMarkerMode()">📍 启用标记点</button>
+                <button class="control-btn" id="toggleDragMode" onclick="handleToggleDragMode()">✋ 启用拖拽模式</button>
+                <button class="control-btn danger-btn" id="deleteCustomMarkersBtn" onclick="handleDeleteCustomMarkers()">🗑️ 删除所有自定义标记点</button>
+                <button class="control-btn success-btn" id="undoDeleteBtn" onclick="handleUndoDelete()" style="display: none;">↩️ 撤销删除</button>
+                <p class="control-hint">拖拽模式：点击并拖动标记点可调整位置</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>© 2024 神都·洛阳文旅数字矩阵 | 行走洛阳 · 读懂历史</p>
+        </div>
+    </footer>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <div class="fengHua-overlay" id="fengHuaOverlay"></div>
+    <div class="fengHua-modal" id="fengHuaModal">
+        <div class="fengHua-modal-inner">
+            <div class="fengHua-modal-header">
+                <div class="fengHua-modal-title-wrap">
+                    <h2 id="fengHuaTitle"></h2>
+                    <div class="fengHua-modal-tag" id="fengHuaTag">文化景点</div>
+                </div>
+                <button class="fengHua-close" id="fengHuaClose" aria-label="关闭">
+                    <span class="fengHua-close-line"></span>
+                    <span class="fengHua-close-line"></span>
+                </button>
+            </div>
+            
+            <div class="fengHua-modal-body">
+                <div class="fengHua-modal-visual">
+                    <div class="fengHua-image-container">
+                        <img id="fengHuaImage" src="" alt="" class="fengHua-modal-img">
+                        <div class="fengHua-image-overlay"></div>
+                        <div class="fengHua-location-badge">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            <span id="fengHuaLocation"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fengHua-modal-content">
+                    <div class="fengHua-modal-desc">
+                        <p id="fengHuaDescription"></p>
+                    </div>
+                    
+                    <div class="fengHua-modal-features">
+                        <div class="fengHua-feature-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 8v4l3 3"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            <span>开放中</span>
+                        </div>
+                        <div class="fengHua-feature-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            <span>AAAAA级</span>
+                        </div>
+                    </div>
+                    
+                    <div class="fengHua-modal-actions">
+                        <button class="fengHua-btn fengHua-btn-primary" id="fengHuaLocate">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 6h1M5 6h1M9 6h1M13 6h1M17 6h1M21 6h1M1 10h1M5 10h1M9 10h1M13 10h1M17 10h1M21 10h1M1 14h1M5 14h1M9 14h1M13 14h1M17 14h1M21 14h1M1 18h1M5 18h1M9 18h1M13 18h1M17 18h1M21 18h1M8 21h8M4 3h16"/>
+                            </svg>
+                            查看地图
+                        </button>
+                        <button class="fengHua-btn fengHua-btn-secondary" id="fengHuaWebsite" style="display: none;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            官方网站
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="data/cultureData.js"></script>
+    <script src="data/journalData.js"></script>
+    <script src="data/archiveData.js"></script>
+    <script src="data/initialData.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
